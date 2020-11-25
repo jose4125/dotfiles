@@ -1,0 +1,53 @@
+{
+  // suggestions
+  // "suggest.echodocSupport": true,
+  // TODO add more labels and give them cool glyphs
+  "suggest.completionItemKindLabels": {
+    "text": "t",
+    "method": "m",
+    "function": "Ôûî"
+  },
+  // diagnostics
+  "diagnostic.errorSign": "ÔÄç ",
+  "diagnostic.warningSign": "ÔÅ± ",
+  "diagnostic.infoSign": "ÔÑ©",
+  "diagnostic.hintSign": "ÔÇ≠ ",
+  // "diagnostic.virtualText": true, // this won't work with codelens when error on same line
+  // "diagnostic.displayByAle": true,
+  // codelens TODO what does this get me?
+  // "codeLens.enable": true,
+  // list
+  "list.indicator": ">",
+  "list.selectedSignText": "ÔÄå ",
+  "coc.preferences.hoverTarget": "float",
+  // python config
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.formatting.provider": "black",
+  // emmet
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "prettier.eslintIntegration": true,
+  "prettier.stylelintIntegration": true,
+  "prettier.tslintIntegration": true,
+  "prettier.onlyUseLocalVersion": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "typescript",
+    "json"
+  ],
+  // explorer
+  "explorer.width": 60,
+  "explorer.file.showHiddenFiles": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.previewAction.onHover": false,
+  "explorer.icon.enableVimDevicons": false,
+  "explorer.keyMappings": {
+    "<cr>": [
+      "expandable?",
+      "expand",
+      "open"
+    ],
+    "v": "open:vsplit"
+  }
+}
