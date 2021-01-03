@@ -1,29 +1,30 @@
 ## APPS
 - xcode
-- slack
-- iterm2
-- alfred
-- brave
-- firefox
-- chrome
-- vscode
-- docker
-- virtualbox
-- skype
-- notion
+- slack - https://slack.com/intl/es-co/downloads/mac
+- iterm2 - https://iterm2.com
+- alfred - https://www.alfredapp.com
+- brave - https://support.brave.com/hc/en-us/articles/360025390311-How-do-I-download-and-install-Brave-
+- firefox - https://www.mozilla.org/es-ES/firefox/new/
+- chrome - https://www.google.com/chrome/?brand=BNSD&gclid=Cj0KCQiA0MD_BRCTARIsADXoopZtS9KNEuZgtFLkOjBCbIW99benGD0uja1eHiku2HoRN3VcvWr97DkaAgPJEALw_wcB&gclsrc=aw.ds
+- vscode - https://code.visualstudio.com/download
+- docker - https://docs.docker.com/docker-for-mac/install/
+- docker compose - https://docs.docker.com/docker-for-mac/install/
+- virtualbox - https://www.virtualbox.org/wiki/Downloads
+- skype - https://www.skype.com/es/get-skype/
+- notion - https://www.notion.so/desktop
 - navicat
-- beekeeper studio
-- postman
-- sourcetree
-- mongo compass
+- beekeeper studio - https://www.beekeeperstudio.io/
+- postman - https://www.postman.com/downloads/
+- sourcetree - https://www.sourcetreeapp.com/
+- mongo compass - https://www.mongodb.com/try/download/compass
 - android studio
-- amphetamine
-- ngrok
-- tiles
-- imageOptim
-- spotmenu
-- spotify
-- logi options(mouse)
+- amphetamine - https://apps.apple.com/es/app/amphetamine/id937984704?mt=12
+- ngrok - https://ngrok.com/download
+- tiles - https://freemacsoft.net/tiles/
+- imageOptim - https://imageoptim.com/es.html
+- spotmenu - https://kmikiy.github.io/SpotMenu/
+- spotify - https://www.spotify.com/co/download/mac/
+- logi options(mouse) - https://www.logitech.com/es-es/product/options
 
 ## TOOLS
 - homebrew
