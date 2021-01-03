@@ -1,4 +1,5 @@
 ## APPS
+
 - xcode
 - slack - https://slack.com/intl/es-co/downloads/mac
 - iterm2 - https://iterm2.com
@@ -27,6 +28,7 @@
 - logi options(mouse) - https://www.logitech.com/es-es/product/options
 
 ## TOOLS
+
 - homebrew
 - pure (zsh theme) - https://github.com/sindresorhus/pure
 - peppermint(iterm color theme) - https://github.com/dotzero/iTerm-2-Peppermint
