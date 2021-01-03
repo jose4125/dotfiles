@@ -1,0 +1,52 @@
+## APPS
+- xcode
+- slack
+- iterm2
+- alfred
+- brave
+- firefox
+- chrome
+- vscode
+- docker
+- virtualbox
+- skype
+- notion
+- navicat
+- beekeeper studio
+- postman
+- sourcetree
+- mongo compass
+- android studio
+- amphetamine
+- ngrok
+- tiles
+- imageOptim
+- spotmenu
+- spotify
+- logi options(mouse)
+
+## TOOLS
+- homebrew
+- pure (zsh theme) - https://github.com/sindresorhus/pure
+- peppermint(iterm color theme) - https://github.com/dotzero/iTerm-2-Peppermint
+- nerd font (JetBrainMono, firacode) - https://www.nerdfonts.com/
+- zsh
+- oh-my-zsh
+- zsh-autosuggestions
+- zsh-syntax-highlighting
+- nvim
+- vim plug
+- embark-theme (nvim theme) - https://github.com/embark-theme/vim
+- tmux
+- tmuxinator
+- nvm
+- python3
+- virtualenv
+- virtualenv wrapper
+- pylint
+- kubectl
+- minikube
+- aws-cli - https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html
+- terraform
+- flutter (dart) - https://flutter.dev/docs/get-started/install/macos
+- ngrok - https://ngrok.com/download
