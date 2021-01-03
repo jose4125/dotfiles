@@ -40,7 +40,7 @@
 - embark-theme (nvim theme) - https://github.com/embark-theme/vim
 - tmux
 - tmuxinator
-- nvm
+- volta
 - python3
 - virtualenv
 - virtualenv wrapper
