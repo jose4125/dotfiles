@@ -1,9 +1,5 @@
 echo "Brew installation"
 which brew || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-echo "docker installation"
-which docker || brew install docker
-echo "docker-compose installation"
-which docker-compose || brew install docker-compose
 echo "zsh installation"
 brew list zsh || brew install zsh
 echo "oh-my-zsh installation"
@@ -13,7 +9,7 @@ brew list python || brew install python
 echo "zsh-autosugestion installation"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 echo "zsh-syntax-highlighting installation"
-brew install zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 echo "neovim installation"
 brew list neovim || brew install --HEAD neovim
 echo "vim plug installation"
