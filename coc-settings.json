@@ -28,13 +28,6 @@
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
-  "prettier.eslintIntegration": true,
-  "prettier.stylelintIntegration": true,
-  "prettier.tslintIntegration": true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "typescript",
-    "json"
-  ],
   // explorer
   "explorer.width": 60,
   "explorer.file.showHiddenFiles": true,
