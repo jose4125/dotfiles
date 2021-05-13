@@ -70,7 +70,7 @@ else
 endif
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
@@ -81,7 +81,10 @@ Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-dispatch'
 Plug 'jparise/vim-graphql'
 Plug 'chemzqm/vim-jsx-improve'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'tpope/vim-commentary'
 Plug 'b4b4r07/vim-hcl'
@@ -90,8 +93,8 @@ Plug 'ekalinin/dockerfile.vim'
 Plug 'skanehira/docker-compose.vim'
 Plug 'kkvh/vim-docker-tools'
 Plug 'pearofducks/ansible-vim'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'luochen1990/rainbow'
@@ -100,13 +103,19 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'APZelos/blamer.nvim'
-Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
 Plug 'jez/vim-better-sml'
 Plug 'Yggdroot/indentLine'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'lifepillar/pgsql.vim'
+if has('nvim') || has('patch-8.0.902')
+  Plug 'mhinz/vim-signify'
+else
+  Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+endif
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
 Plug 'gruvbox-community/gruvbox'
@@ -176,32 +185,34 @@ let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹ ",
-    \ "Staged"    : "✚ ",
-    \ "Untracked" : "✭ ",
-    \ "Renamed"   : "➜ ",
-    \ "Unmerged"  : "═ ",
-    \ "Deleted"   : "✖ ",
-    \ "Dirty"     : "✗ ",
-    \ "Clean"     : "✔︎ ",
-    \ 'Ignored'   : '☒ ',
-    \ "Unknown"   : "? "
-    \ }
+" let g:NERDTreeIndicatorMapCustom = {
+"     \ "Modified"  : "‚úπ ",
+"     \ "Staged"    : "‚úö ",
+"     \ "Untracked" : "‚ú≠ ",
+"     \ "Renamed"   : "‚ûú ",
+"     \ "Unmerged"  : "‚ïê ",
+"     \ "Deleted"   : "‚úñ ",
+"     \ "Dirty"     : "‚úó ",
+"     \ "Clean"     : "‚úîÔ∏é ",
+"     \ 'Ignored'   : '‚òí ',
+"     \ "Unknown"   : "? "
+"     \ }
 
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
 endif
 
+let g:signify_sign_add = '‚ñà‚ñà'
+let g:signify_sign_change = '‚ñà‚ñà'
+let g:signify_sign_delete = '‚ñà‚ñà'
 
-let g:signify_sign_show_text = 0
+highlight SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
+highlight SignifySignDelete ctermfg=red    guifg=#ff0000 cterm=NONE gui=NONE
+highlight SignifySignChange ctermfg=yellow guifg=#ffff00 cterm=NONE gui=NONE
 
-let g:miniBufExplMapWindowNavVim = 1
-
-
-highlight SignifySignAdd                  ctermbg=green                guibg=#00ff00
-highlight SignifySignDelete ctermfg=black ctermbg=red    guifg=#ffffff guibg=#ff0000
-highlight SignifySignChange ctermfg=black ctermbg=yellow guifg=#000000 guibg=#ffff00
+" highlight SignifySignAdd                  ctermbg=green                guibg=#00ff00
+" highlight SignifySignDelete ctermfg=black ctermbg=red    guifg=#ffffff guibg=#ff0000
+" highlight SignifySignChange ctermfg=black ctermbg=yellow guifg=#000000 guibg=#ffff00
 
 map <Leader>t :MBEToggle<cr>
 map <Leader>bn :MBEbn<cr>
@@ -223,7 +234,10 @@ au BufNewFile,BufRead *.prisma setfiletype graphql
 " vim-jsx
 autocmd BufRead,BufNewFile *.tsx setlocal syntax=javascript.jsx
 
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+" command! -nargs=0 Prettier :CocCommand prettier.formatFile
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
@@ -266,8 +280,8 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <C-g> :Rg<CR>
-nnoremap <C-p> :GFiles<CR>
-nnoremap <C-f> :Files<CR>
+nnoremap <Leader>p :GFiles<CR>
+nnoremap <Leader>f :Files<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
@@ -295,7 +309,6 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" command! -nargs=0 Prettier :CocCommand prettier.formatFile
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " GoTo code navigation.
@@ -306,9 +319,27 @@ nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 nnoremap <leader>cr :CocRestart
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
 
 nmap <leader>gl :diffget //3<CR>
