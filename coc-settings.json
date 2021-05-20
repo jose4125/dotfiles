@@ -5,20 +5,20 @@
   "suggest.completionItemKindLabels": {
     "text": "t",
     "method": "m",
-    "function": "Ôûî"
+    "function": ""
   },
   // diagnostics
-  "diagnostic.errorSign": "ÔÄç ",
-  "diagnostic.warningSign": "ÔÅ± ",
-  "diagnostic.infoSign": "ÔÑ©",
-  "diagnostic.hintSign": "ÔÇ≠ ",
+  "diagnostic.errorSign": " ",
+  "diagnostic.warningSign": " ",
+  "diagnostic.infoSign": "",
+  "diagnostic.hintSign": " ",
   // "diagnostic.virtualText": true, // this won't work with codelens when error on same line
   // "diagnostic.displayByAle": true,
   // codelens TODO what does this get me?
   // "codeLens.enable": true,
   // list
   "list.indicator": ">",
-  "list.selectedSignText": "ÔÄå ",
+  "list.selectedSignText": " ",
   "coc.preferences.hoverTarget": "float",
   // python config
   "python.linting.enabled": true,
