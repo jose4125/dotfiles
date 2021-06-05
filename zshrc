@@ -1,17 +1,14 @@
+ZSH_DISABLE_COMPFIX=true
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export SMLNJ_HOME=/usr/local/smlnj/
+export PATH="$(pyenv root)/shims:$PATH"
 export PATH="$PATH:/Users/jlombana/development/flutter/bin"
-export PATH="/usr/local/opt/python/libexec/bin:/usr/local/bin:$PATH"
-export WORKON_HOME=~/.virtualenvs
-[ -f /usr/local/bin/virtualenvwrapper.sh ] && source /usr/local/bin/virtualenvwrapper.sh
-
-export DYLD_LIBRARY_PATH=/usr/local/Cellar/openssl/1.0.2t/lib
-
 export EDITOR='vim'
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/jlombana/.oh-my-zsh"
+
+eval "$(pyenv init --path)"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -87,12 +84,12 @@ plugins=(
   kubectl
   minikube
   nvm
+  pyenv
   ssh-agent
   terraform
   tmux
   tmuxinator
   zsh-autosuggestions
-  zsh-iterm-touchbar
   zsh-syntax-highlighting
 )
 
@@ -124,18 +121,17 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias k="kubectl"
-alias gpa="grow preprocess -A"
 alias v='nvim'
 alias vim='nvim'
+alias ll='ls -la'
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
-zstyle :omz:plugins:ssh-agent identities id_rsa_stash id_rsa_gh
+zstyle :omz:plugins:ssh-agent identities id_gh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 autoload -U promptinit; promptinit
-prompt pure
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -144,23 +140,11 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/jlombana/.sdkman"
-[[ -s "/Users/jlombana/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/jlombana/.sdkman/bin/sdkman-init.sh"
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+eval 'source <("/usr/local/bin/starship" init zsh --print-full-init)'
+eval "$(pyenv init -)"
 
 [[ $TMUX != "" ]] && export TERM="screen-256color"
 
 echo "es mac"
 # tmux || echo "tmux already run"
 # tmux info &> /dev/null || exit
-
-# Added by Grow SDK Installer (2020-07-17 10:28:24.121997)
-export PATH=/Users/jlombana/bin:$PATH
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/jlombana/development/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jlombana/development/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/jlombana/development/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jlombana/development/google-cloud-sdk/completion.zsh.inc'; fi

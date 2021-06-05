@@ -202,9 +202,11 @@ if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
 endif
 
-let g:signify_sign_add = '‚ñà‚ñà'
-let g:signify_sign_change = '‚ñà‚ñà'
-let g:signify_sign_delete = '‚ñà‚ñà'
+let g:signify_sign_add = '██'
+let g:signify_sign_change = '██'
+let g:signify_sign_delete = '██'
+
+set updatetime=100
 
 highlight SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
 highlight SignifySignDelete ctermfg=red    guifg=#ff0000 cterm=NONE gui=NONE

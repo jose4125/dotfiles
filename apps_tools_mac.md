@@ -13,7 +13,7 @@
 - virtualbox - https://www.virtualbox.org/wiki/Downloads
 - skype - https://www.skype.com/es/get-skype/
 - notion - https://www.notion.so/desktop
-- navicat
+- navicat - (es pago :()
 - beekeeper studio - https://www.beekeeperstudio.io/
 - postman - https://www.postman.com/downloads/
 - sourcetree - https://www.sourcetreeapp.com/
@@ -21,7 +21,7 @@
 - android studio
 - amphetamine - https://apps.apple.com/es/app/amphetamine/id937984704?mt=12
 - ngrok - https://ngrok.com/download
-- tiles - https://freemacsoft.net/tiles/
+- rectangle - https://rectangleapp.com/
 - imageOptim - https://imageoptim.com/es.html
 - spotmenu - https://kmikiy.github.io/SpotMenu/
 - spotify - https://www.spotify.com/co/download/mac/
@@ -29,24 +29,26 @@
 
 ## TOOLS
 
-- homebrew
-- pure (zsh theme) - https://github.com/sindresorhus/pure
-- peppermint(iterm color theme) - https://github.com/dotzero/iTerm-2-Peppermint
+- homebrew - https://brew.sh/index
+- starship (zsh theme) - https://starship.rs/
+- embark-theme iterm(iterm color theme) - https://github.com/embark-theme/iterm
 - nerd font (JetBrainMono, firacode) - https://www.nerdfonts.com/
-- zsh
-- oh-my-zsh
-- zsh-autosuggestions
-- zsh-syntax-highlighting
-- nvim
-- vim plug
+- zsh - https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
+- oh-my-zsh - https://ohmyz.sh/#install
+- zsh-autosuggestions - https://github.com/zsh-users/zsh-autosuggestions
+- zsh-syntax-highlighting - https://github.com/zsh-users/zsh-syntax-highlighting
+- nvim - https://github.com/neovim/neovim/wiki/Installing-Neovim#macos--os-x
+- vim plug - https://github.com/junegunn/vim-plug
 - embark-theme (nvim theme) - https://github.com/embark-theme/vim
 - tmux
 - tmuxinator
-- volta
-- python3
-- virtualenv
-- virtualenv wrapper
+- nvm - https://github.com/nvm-sh/nvm
+- pyenv - Prerequisites: (openssl readline sqlite3 xz zlib) - https://github.com/pyenv/pyenv
+- pipenv - https://pipenv-es.readthedocs.io/es/latest/
 - pylint
+- flake8
+- isort
+- black
 - kubectl
 - minikube
 - aws-cli - https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html

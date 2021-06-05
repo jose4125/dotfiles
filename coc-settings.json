@@ -22,8 +22,9 @@
   "coc.preferences.hoverTarget": "float",
   // python config
   "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
+  "python.setLinter": "flake8",
   "python.formatting.provider": "black",
+  "python.sortImports.path": "isort",
   // emmet
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
@@ -35,11 +36,7 @@
   "explorer.previewAction.onHover": false,
   "explorer.icon.enableVimDevicons": false,
   "explorer.keyMappings": {
-    "<cr>": [
-      "expandable?",
-      "expand",
-      "open"
-    ],
+    "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit"
   }
 }
