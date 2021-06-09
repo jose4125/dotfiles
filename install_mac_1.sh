@@ -1,12 +1,3 @@
-echo "💾 brew installation\n"
-which brew || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-echo "🌮 done brew ✅\n"
-echo "🛎 .zshrc file exist\n"
-(test -f ~/.zshrc && echo ".zshrc exist -> removing file\n" && rm -rf ~/.zshrc) || (echo ".zshrc no exist\n")
-echo "🌮 done .zshrc file exist ✅\n"
-echo "💈 dotfiles download\n"
-(test -d ~/development/dotfiles && echo "dotfiles exist\n") || (echo "cloning dotfiles\n" && git clone git@github.com:jose4125/dotfiles.git ~/development/dotfiles)
-echo "🌮 done dotfiles ✅\n"
 echo "🛎 ===== SIMBOLIK LINKING FILES  ===== 🛎\n"
 echo "🔗 starship link\n"
 (test -L ~/.config/starship.toml && echo "starship.toml exist\n") || (echo "linking strship\n" && ln -s ~/development/dotfiles/starship.toml ~/.config/starship.toml)
@@ -70,32 +61,6 @@ brew list pyenv || brew install pyenv
 echo "🌮 done pyenv ✅\n"
 echo "💾 latest python installation\n"
 pyenv install $(pyenv install --list | grep -v - | grep -v b | tail -1)
-echo "++++++ PYTHON VERSIONS ++++++\n"
-pyenv versions
-echo "+++++++++++++++++++++++++++++\n"
-pyenv global $(pyenv install --list | grep -v - | grep -v b | tail -1)
-echo "++++++ PYTHON VERSION ++++++\n"
-python --version
-echo "++++++++++++++++++++++++++++\n"
-echo "++++++ PIP VERSION ++++++\n"
-pip --version
-echo "+++++++++++++++++++++++++\n"
-echo "🌮 done latest python installation ✅\n"
-echo "💾 pipenv installation\n"
-brew list pipenv || brew install pipenv
-echo "🌮 done pipenv ✅\n"
-echo "💾 flake8 installation\n"
-which flake8 || pip install flake8
-echo "🌮 done flake8 ✅\n"
-echo "💾 black installation\n"
-which black || pip install black
-echo "🌮 done black ✅\n"
-echo "💾 isort installation\n"
-which isort || pip install isort
-echo "🌮 done isort ✅\n"
-echo "💾 pylint installation\n"
-which pylint || pip install pylint
-echo "🌮 done pylint ✅\n"
 echo "💾 terraform installation\n"
 brew list terraform || brew tap hashicorp/tap
 brew list terraform || brew install hashicorp/tap/terraform
@@ -123,7 +88,3 @@ echo "*** 💊 FIX zsh compinit: insecure directories, run compaudit for list. *
 compaudit
 chmod g-w /usr/local/share/zsh
 echo "🌮 done fix ✅\n"
-echo "💾 oh-my-zsh installation\n"
-ls ~/.oh-my-zsh || sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-echo "🌮 done oh-my-zsh ✅\n"
-
