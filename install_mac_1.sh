@@ -18,9 +18,6 @@ echo "🔗 coc extensions link\n"
 (test -L ~/.config/coc/extensions/package.json && echo "coc extensions exist\n") || (test ! -d ~/.config/coc/extensions && echo "creating coc extensions folder\n" && mkdir -p ~/.config/coc/extensions) && (echo "linking coc extensions\n" && ln -s ~/development/dotfiles/coc/extensions/package.json ~/.config/coc/extensions/package.json)
 echo "🌮 done coc extensions link ✅\n"
 echo "🛎 ===== DONE SIMBOLIK LINKING FILES  ===== 🛎\n"
-echo "💾 zsh installation\n"
-brew list zsh || brew install zsh
-echo "🌮 done zsh ✅\n"
 echo "💈 embrak iterm download"
 (test -d ~/Downloads/embark-iterm && echo "embark iterm exist\n") || (echo "cloning embark iterm\n" && git clone https://github.com/embark-theme/iterm.git ~/Downloads/embark-iterm)
 echo "🌮 done embark iterm ✅\n"
