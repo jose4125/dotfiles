@@ -1,3 +1,6 @@
+echo "🛎 .zshrc file exist\n"
+(test -f ~/.zshrc && echo ".zshrc exist -> removing file\n" && rm -rf ~/.zshrc) || (echo ".zshrc no exist\n")
+echo "🌮 done .zshrc file exist ✅\n"
 echo "🛎 ===== SIMBOLIK LINKING FILES  ===== 🛎\n"
 echo "🔗 starship link\n"
 (test -L ~/.config/starship.toml && echo "starship.toml exist\n") || (echo "linking strship\n" && ln -s ~/development/dotfiles/starship.toml ~/.config/starship.toml)
@@ -84,4 +87,5 @@ echo "🌮 done ngrok ✅\n"
 echo "*** 💊 FIX zsh compinit: insecure directories, run compaudit for list. ***"
 compaudit
 chmod g-w /usr/local/share/zsh
+chmod g-w /usr/local/share/zsh/site-functions
 echo "🌮 done fix ✅\n"

@@ -24,3 +24,9 @@ echo "🌮 done isort ✅\n"
 echo "💾 pylint installation\n"
 which pylint || pip install pylint
 echo "🌮 done pylint ✅\n"
+echo "💾 node LTS installation\n"
+nvm install --lts
+echo "🌮 done node LTS ✅\n"
+echo "++++++ NODE VERSION ++++++\n"
+node --version
+echo "+++++++++++++++++++++++++++++\n"
