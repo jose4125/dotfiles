@@ -2,6 +2,7 @@ syntax on
 filetype on
 filetype plugin indent on
 
+set mouse=a
 set guicursor=
 "set noshowmatch
 set relativenumber
@@ -15,6 +16,7 @@ set smartindent
 set nu
 set nowrap
 set smartcase
+set ignorecase
 set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
@@ -70,7 +72,6 @@ else
 endif
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
@@ -93,8 +94,6 @@ Plug 'ekalinin/dockerfile.vim'
 Plug 'skanehira/docker-compose.vim'
 Plug 'kkvh/vim-docker-tools'
 Plug 'pearofducks/ansible-vim'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'luochen1990/rainbow'
@@ -109,19 +108,19 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
 Plug 'jez/vim-better-sml'
 Plug 'Yggdroot/indentLine'
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'lifepillar/pgsql.vim'
 if has('nvim') || has('patch-8.0.902')
   Plug 'mhinz/vim-signify'
 else
   Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
 endif
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'dyng/ctrlsf.vim'
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
-Plug 'gruvbox-community/gruvbox'
 Plug 'skbolton/embark'
-Plug 'haishanh/night-owl.vim'
-" Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
@@ -130,10 +129,6 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-" if exists('g:vscode')
-"   " VS Code extension
-"   source $HOME/.config/nvim/vscode/settings.vim
-" endif
 
 let g:sneak#label = 1
 let g:blamer_enabled = 1
@@ -144,35 +139,21 @@ let g:rainbow_conf = {
 \ }
 \}
 
-let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-let g:gruvbox_invert_selection='0'
 
 
 if (has("termguicolors"))
   set termguicolors
 endif
 
-"colorscheme gruvbox
  colorscheme embark
-" let g:lightline = {
-"       \ 'colorscheme': 'embark',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ],
-"       \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ]
-"       \ },
-"       \ 'component_function': {
-"       \   'gitbranch': 'FugitiveHead'
-"       \ },
-"       \ }
 
 let g:airline#extensions#tabline#enabled = 2
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
-" let g:airline_theme='embark'
 
 if executable('rg')
   let g:rg_derive_root='true'
@@ -184,19 +165,6 @@ let mapleader = " "
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
-
-" let g:NERDTreeIndicatorMapCustom = {
-"     \ "Modified"  : "‚úπ ",
-"     \ "Staged"    : "‚úö ",
-"     \ "Untracked" : "‚ú≠ ",
-"     \ "Renamed"   : "‚ûú ",
-"     \ "Unmerged"  : "‚ïê ",
-"     \ "Deleted"   : "‚úñ ",
-"     \ "Dirty"     : "‚úó ",
-"     \ "Clean"     : "‚úîÔ∏é ",
-"     \ 'Ignored'   : '‚òí ',
-"     \ "Unknown"   : "? "
-"     \ }
 
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
@@ -216,19 +184,19 @@ highlight SignifySignChange ctermfg=yellow guifg=#ffff00 cterm=NONE gui=NONE
 " highlight SignifySignDelete ctermfg=black ctermbg=red    guifg=#ffffff guibg=#ff0000
 " highlight SignifySignChange ctermfg=black ctermbg=yellow guifg=#000000 guibg=#ffff00
 
+
 map <Leader>t :MBEToggle<cr>
 map <Leader>bn :MBEbn<cr>
 map <Leader>bp :MBEbp<cr>
 
-nmap <Leader>cs :CocSearch<Space>
-nmap <Leader>bb :buffers<CR>:buffer<Space>
+" nmap <Leader>cs :CocSearch<Space>
+" nmap <Leader>bb :buffers<CR>:buffer<Space>
 map ]b :bn<cr>
 map [b :bp<cr>
 map gd :bd<cr>
 
 " Use preset argument to open it
 nmap <space>e :CocCommand explorer<CR>
-nmap <space>ef :CocCommand explorer --preset floating<CR>
 
 " graphql
 au BufNewFile,BufRead *.prisma setfiletype graphql
@@ -236,24 +204,14 @@ au BufNewFile,BufRead *.prisma setfiletype graphql
 " vim-jsx
 autocmd BufRead,BufNewFile *.tsx setlocal syntax=javascript.jsx
 
-" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-" command! -nargs=0 Prettier :CocCommand prettier.formatFile
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+" coc prettier
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
-
-"nnoremap fj :m .+1<CR>==
-"nnoremap fk :m .-2<CR>==
-"inoremap fj <Esc>:m .+1<CR>==gi
-"inoremap fk <Esc>:m .-2<CR>==gi
-"vnoremap fj :m '>+1<CR>gv=gv
-"vnoremap fk :m '<-2<CR>gv=gv
-"
 
 inoremap {<CR> {<CR>}<C-o>O
 inoremap [<CR> [<CR>]<C-o>O
@@ -272,7 +230,79 @@ vnoremap <C-c> "+y
 nnoremap <C-v> "+gP
 vnoremap <C-v> "+gP
 
-nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+" ctrlsf
+nmap <leader>S <Plug>CtrlSFPrompt
+
+" telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>gf <cmd>Telescope git_files<cr>
+nnoremap <leader>fe <cmd>Telescope file_browser<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>gc <cmd>Telescope git_commits<cr>
+nnoremap <leader>gbc <cmd>Telescope git_bcommits<cr>
+nnoremap <leader>gbr <cmd>Telescope git_branches<cr>
+nnoremap <leader>gs <cmd>Telescope git_status<cr>
+nnoremap <leader>gsh <cmd>Telescope git_stash<cr>
+nnoremap <leader>ch <cmd>Telescope command_history<cr>
+nnoremap <leader>tr <cmd>Telescope treesitter<cr>
+nnoremap <leader>co <cmd>Telescope commands<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" telescope setup
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case'
+    },
+    prompt_position = "top",
+    prompt_prefix = "> ",
+    selection_caret = "> ",
+    entry_prefix = "  ",
+    initial_mode = "insert",
+    selection_strategy = "reset",
+    sorting_strategy = "ascending",
+    layout_strategy = "horizontal",
+    layout_defaults = {
+      horizontal = {
+        mirror = false,
+      },
+      vertical = {
+        mirror = false,
+      },
+    },
+    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
+    file_ignore_patterns = {},
+    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+    shorten_path = true,
+    winblend = 0,
+    width = 0.75,
+    preview_cutoff = 120,
+    results_height = 1,
+    results_width = 0.8,
+    border = {},
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+    color_devicons = true,
+    use_less = true,
+    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
+    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
+    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
+    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+
+    -- Developer configurations: Not meant for general override
+    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+  }
+}
+
+EOF
+
+" nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>h :wincmd h<CR>
@@ -283,7 +313,7 @@ nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <C-g> :Rg<CR>
 nnoremap <Leader>p :GFiles<CR>
-nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>fs :Files<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
@@ -292,16 +322,11 @@ nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kk
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
 
-map <leader>n :NERDTreeToggle<CR>
 
 " vim TODO
 nmap <Leader>tu <Plug>BujoChecknormal
 nmap <Leader>th <Plug>BujoAddnormal
 let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
-
-" Vim with me
-"nnoremap <leader>vwm :colorscheme gruvbox<bar>:set background=dark<CR>
-"nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
 
 vnoremap X "_d
 inoremap <C-c> <esc>
@@ -343,10 +368,10 @@ function! s:show_documentation()
   endif
 endfunction
 
-
-nmap <leader>gl :diffget //3<CR>
-nmap <leader>gh :diffget //2<CR>
-nmap <leader>gs :G<CR>
+" fungitive
+nmap <leader>Gs :G<CR>
+nmap <leader>Gl :diffget //3<CR>
+nmap <leader>Gh :diffget //2<CR>
 
 
 fun! TrimWhitespace()

@@ -20,6 +20,16 @@
   "list.indicator": ">",
   "list.selectedSignText": " ",
   "coc.preferences.hoverTarget": "float",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx",
+    "graphql",
+    "markdown"
+  ],
   // python config
   "python.linting.enabled": true,
   "python.setLinter": "flake8",
@@ -29,6 +39,14 @@
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
+  "html-css-support.enabledLanguages": [
+    "html",
+    "vue",
+    "blade",
+    "htmldjango",
+    "typescriptreact",
+    "javascriptreact"
+  ],
   // explorer
   "explorer.width": 60,
   "explorer.file.showHiddenFiles": true,
