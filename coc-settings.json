@@ -28,7 +28,8 @@
     "javascriptreact",
     "typescript.tsx",
     "graphql",
-    "markdown"
+    "markdown",
+    "css"
   ],
   // python config
   "python.linting.enabled": true,
@@ -47,6 +48,10 @@
     "typescriptreact",
     "javascriptreact"
   ],
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "wxss.validate": false,
   // explorer
   "explorer.width": 60,
   "explorer.file.showHiddenFiles": true,

@@ -234,14 +234,15 @@ vnoremap <C-v> "+gP
 nmap <leader>S <Plug>CtrlSFPrompt
 
 " telescope
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>p <cmd>Telescope find_files<cr>
 nnoremap <leader>gf <cmd>Telescope git_files<cr>
 nnoremap <leader>fe <cmd>Telescope file_browser<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>of <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>mk <cmd>Telescope marks<cr>
 nnoremap <leader>gc <cmd>Telescope git_commits<cr>
 nnoremap <leader>gbc <cmd>Telescope git_bcommits<cr>
-nnoremap <leader>gbr <cmd>Telescope git_branches<cr>
+nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 nnoremap <leader>gs <cmd>Telescope git_status<cr>
 nnoremap <leader>gsh <cmd>Telescope git_stash<cr>
 nnoremap <leader>ch <cmd>Telescope command_history<cr>
@@ -312,7 +313,7 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <C-g> :Rg<CR>
-nnoremap <Leader>p :GFiles<CR>
+nnoremap <Leader>ff :GFiles<CR>
 nnoremap <Leader>fs :Files<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
