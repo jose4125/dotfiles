@@ -29,7 +29,8 @@
     "typescript.tsx",
     "graphql",
     "markdown",
-    "css"
+    "css",
+    "scss"
   ],
   // python config
   "python.linting.enabled": true,

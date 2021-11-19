@@ -2,7 +2,7 @@ syntax on
 filetype on
 filetype plugin indent on
 
-set mouse=a
+"set mouse=a
 set guicursor=
 "set noshowmatch
 set relativenumber
@@ -13,6 +13,7 @@ set tabstop=2 softtabstop=2
 set shiftwidth=2
 set expandtab
 set smartindent
+set autoindent
 set nu
 set nowrap
 set smartcase
@@ -30,6 +31,7 @@ set encoding=UTF-8
 set guifont=JetBrainsMono_Nerd_Font:h15
 "set guifont=FiraCode_Nerd_Font:h16
 set shortmess-=S
+set nocompatible
 
 set includeexpr=substitute(v:fname,'^/','','g')
 "set suffixesadd=.js,.vue,.scss,.py
@@ -65,6 +67,8 @@ au CursorHold * checktime
 
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
+" let g:polyglot_disabled = ['scss']
+
 if has('nvim')
   call plug#begin('~/.local/share/nvim/plugged')
 else
@@ -79,9 +83,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vuciv/vim-bujo'
 Plug 'kshenoy/vim-signature'
-Plug 'tpope/vim-dispatch'
 Plug 'jparise/vim-graphql'
-Plug 'chemzqm/vim-jsx-improve'
+" Plug 'chemzqm/vim-jsx-improve'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript'
@@ -106,7 +109,6 @@ Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
-Plug 'jez/vim-better-sml'
 Plug 'Yggdroot/indentLine'
 Plug 'lifepillar/pgsql.vim'
 if has('nvim') || has('patch-8.0.902')
@@ -118,13 +120,12 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'dyng/ctrlsf.vim'
+Plug 'jiangmiao/auto-pairs'
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
 Plug 'skbolton/embark'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'flazz/vim-colorschemes'
-Plug '/home/mpaulson/personal/vim-be-good'
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -136,6 +137,7 @@ let g:rainbow_active = 1
 let g:rainbow_conf = {
 \ 'separately': {
 \   'html': 0,
+\   'scss': 0,
 \ }
 \}
 
@@ -184,6 +186,12 @@ highlight SignifySignChange ctermfg=yellow guifg=#ffff00 cterm=NONE gui=NONE
 " highlight SignifySignDelete ctermfg=black ctermbg=red    guifg=#ffffff guibg=#ff0000
 " highlight SignifySignChange ctermfg=black ctermbg=yellow guifg=#000000 guibg=#ffff00
 
+" map ESC to jj
+inoremap jj <Esc>
+"vim commentary
+xmap cc <Plug>Commentary
+nmap ccc <Plug>CommentaryLine
+
 
 map <Leader>t :MBEToggle<cr>
 map <Leader>bn :MBEbn<cr>
@@ -201,8 +209,8 @@ nmap <space>e :CocCommand explorer<CR>
 " graphql
 au BufNewFile,BufRead *.prisma setfiletype graphql
 
-" vim-jsx
-autocmd BufRead,BufNewFile *.tsx setlocal syntax=javascript.jsx
+" vim-jsx-typescript
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 " coc prettier
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
@@ -212,10 +220,6 @@ nnoremap <CR> :noh<CR><CR>
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
-
-inoremap {<CR> {<CR>}<C-o>O
-inoremap [<CR> [<CR>]<C-o>O
-inoremap (<CR> (<CR>)<C-o>O
 
 " TAB in general mode will move to text buffer
 nnoremap <silent> <TAB> :bnext<CR>
@@ -231,7 +235,21 @@ nnoremap <C-v> "+gP
 vnoremap <C-v> "+gP
 
 " ctrlsf
-nmap <leader>S <Plug>CtrlSFPrompt
+nmap <leader>S <Plug>CtrlSFPrompt''
+nnoremap <leader>SS :CtrlSFOpen<CR>
+nnoremap <leader>ts :CtrlSFToggle<CR>
+"inoremap <leader>ts <Esc>:CtrlSFToggle<CR>
+
+let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_auto_focus = {
+    \ "at": "done",
+    \ "duration_less_than": 1000
+    \ }
+
+let g:ctrlsf_mapping = {
+    \ "next": "n",
+    \ "prev": "N",
+    \ }
 
 " telescope
 nnoremap <leader>p <cmd>Telescope find_files<cr>

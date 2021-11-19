@@ -1,0 +1,270 @@
+include .env
+export
+
+download_root = ${DOWNLOADROOT}
+fonts = ${MPATH}/$$(whoami)/${FONTS}
+dot_dev_root = ${DEVROOT}/${DOTDEVROOT}
+dev_root = ${DEVROOT}
+kind = ${KIND}
+jetbrains_mono_version = ${JETBRAINSMONOVERSION}
+nvm_version = ${NVMVERSION}
+flutter_version = ${FLUTTERVERSION}
+
+all: jetbrainsmono simlinkfiles toolsandplugins pyenv devops ngrok nvm restart
+
+ohmyzsh: ohmyzshinstall
+
+python: pythonsetupglobal pythontools
+
+testvar:
+	@echo download = ${download_root}
+	@echo fonts = ${fonts}
+	@echo dots = ${dot_dev_root}
+	@echo dev = ${dev_root}
+	@echo kind = ${kind}
+	@echo jetbrainsmono = ${jetbrains_mono_version}
+	@echo nvm = ${nvm_version}
+	@echo flutter = ${flutter_version}
+
+clean: jetbrainsmonoclean ngrokclean flutterclean
+
+restart:
+	zsh
+
+brewinstall:
+	@echo "💾 brew installation"
+	which brew || /usr/bin/ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	@echo "🌮 done brew ✅"
+
+zshinstall: brewinstall
+	@echo "💾 zsh installation"
+	brew list zsh || brew install zsh
+	@echo "🌮 done zsh ✅"
+
+ohmyzshinstall: zshinstall
+	@echo "💾 oh-my-zsh installation"
+	ls ~/.oh-my-zsh || sh -c "$$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	@echo "🌮 done oh-my-zsh ✅"
+
+zshrcremove:
+	@echo "🛎 .zshrc file exist"
+	(test -f ~/.zshrc && echo ".zshrc exist -> removing file\n" && rm -rf ~/.zshrc) || (echo ".zshrc no exist\n")
+	@echo "🌮 done .zshrc file exist ✅"
+
+# ====== JETBRAINS MONO FONT ======
+jetbrainsmono: jetbrainsmonocopy jetbrainsmonounzip jetbrainsmonodownload
+
+jetbrainsmonodownload:
+	@echo "💈 jetBrains Mono nerd font download"
+	(test -d ${download_root}/JetBrainsMono && echo "JetBrainsMono exist\n") || (echo "downloading JetBrainsMono\n" && curl https://github.com/ryanoasis/nerd-fonts/releases/download/v${jetbrains_mono_version}/JetBrainsMono.zip -L -o ${download_root}/JetBrainsMono.zip)
+
+jetbrainsmonounzip: jetbrainsmonodownload
+	(test -f ${download_root}/JetBrainsMono.zip && echo "JetBrainsMono zip  exist -> unziping\n" && unzip ${download_root}/JetBrainsMono.zip -d ${download_root}/JetBrainsMono ) || (echo "JetBrainsMono zip no exist\n")
+
+jetbrainsmonocopy: jetbrainsmonounzip
+	cp ${download_root}/JetBrainsMono/JetBrains\ Mono\ Regular\ Nerd\ Font\ Complete\ Mono.ttf ${fonts}/JetBrains\ Mono\ Regular\ Nerd\ Font\ Complete\ Mono.ttf
+	cp ${download_root}/JetBrainsMono/JetBrains\ Mono\ Regular\ Nerd\ Font\ Complete.ttf ${fonts}/JetBrains\ Mono\ Regular\ Nerd\ Font\ Complete.ttf
+
+jetbrainsmonoclean:
+	(test -f ${download_root}/JetBrainsMono.zip && echo "JetBrainsMono zip  exist -> removing zip\n" && rm -rf ${download_root}/JetBrainsMono.zip) || (echo "JetBrainsMono zip no exist\n")
+
+# ====== SYMBOLIK LINKINF FILES ======
+simlinkfiles: zshlink initvimlink zprofilelink starshiplink cocsettingslink cocextensionslink
+
+zshlink: zshrcremove
+	@echo "🔗 zshrc link"
+	(test -L ~/.zshrc && echo ".zshrc exist\n") || (echo "linking zshrc\n" && ln -s ${dot_dev_root}/dotfiles/zshrc ~/.zshrc)
+	@echo "🌮 done zshrc link ✅"
+
+starshiplink:
+	@echo "🔗 starship link"
+	(test -L ~/.config/starship.toml && echo "starship.toml exist\n") || (echo "linking strship\n" && ln -s ${dot_dev_root}/starship.toml ~/.config/starship.toml)
+	@echo "🌮 done starship link ✅"
+
+zprofilelink:
+	@echo "🔗 zprofile link"
+	(test -L ~/.zprofile && echo ".zprofile exist\n") || (echo "linking zprofile\n" && ln -s ${dot_dev_root}/zprofile ~/.zprofile)
+	@echo "🌮 done zprofile link ✅"
+
+initvimlink:
+	@echo "🔗 init.vim link"
+	(test -L ~/.config/nvim/ini.vim && echo "init.vim exist\n") || (test ! -d ~/.config/nvim/ && echo "creating nvim folder\n" && mkdir -p ~/.config/nvim) && (echo "linking init.vim\n" && ln -s ${dot_dev_root}/init.vim ~/.config/nvim/init.vim)
+	@echo "🌮 done init.nvim link ✅"
+
+cocsettingslink:
+	@echo "🔗 coc settings link"
+	(test -L ~/.config/nvim/coc-settings.json && echo "coc-settings exist\n") || (echo "linking coc-settings\n" && ln -s ${dot_dev_root}/coc-settings.json ~/.config/nvim/coc-settings.json)
+	@echo "🌮 done coc settings link ✅"
+
+cocextensionslink:
+	@echo "🔗 coc extensions link"
+	(test -L ~/.config/coc/extensions/package.json && echo "coc extensions exist\n") || (test ! -d ~/.config/coc/extensions && echo "creating coc extensions folder\n" && mkdir -p ~/.config/coc/extensions) && (echo "linking coc extensions\n" && ln -s ${dot_dev_root}/coc/extensions/package.json ~/.config/coc/extensions/package.json)
+	@echo "🌮 done coc extensions link ✅"
+
+# ====== TOOLS AND PLUGINS ======
+toolsandplugins: embarkdownload zshautosugestioninstall zshsyntaxhighlightinginstall vimpluginstall neoviminstall tmuxinstall starshipinstall
+
+embarkdownload:
+	@echo "💈 embrak iterm download"
+	(test -d ${download_root}/embark-iterm && echo "embark iterm exist\n") || (echo "cloning embark iterm\n" && git clone https://github.com/embark-theme/iterm.git ${download_root}/embark-iterm)
+	@echo "🌮 done embark iterm ✅"
+
+zshautosugestioninstall:
+	@echo "💈 zsh-autosugestion installation"
+	(test -d $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && echo "zsh-autosugestion exist\n") || (echo "cloning zsh-autosugestion\n" && git clone https://github.com/zsh-users/zsh-autosuggestions $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions)
+	@echo "🌮 done zsh-autosugestion ✅"
+
+zshsyntaxhighlightinginstall:
+	@echo "💈 zsh-syntax-highlighting installation"
+	(test -d $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && echo "zsh-syntax-highlighting exist\n") || (echo "cloning zsh-syntax-highlighting\n" && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting)
+	@echo "🌮 done zsh-syntax-highlighting ✅"
+
+neoviminstall:
+	@echo "💾 neovim installation"
+	brew list neovim || brew install --HEAD neovim
+	@echo "🌮 done neovim ✅"
+
+vimpluginstall: neoviminstall
+	@echo "💾 vim plug installation"
+	(test -f "$${XDG_DATA_HOME:-$$HOME/.local/share}"/nvim/site/autoload/plug.vim && echo "plug vim exist\n") || (echo "cloning plug vim\n" && sh -c 'curl -fLo "$${XDG_DATA_HOME:-$$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+	@echo "🌮 done vim-plug ✅"
+
+tmuxinstall:
+	@echo "💾 tmux installation"
+	brew list tmux || brew install tmux
+	echo "🌮 done tmux ✅"
+
+starshipinstall:
+	@echo "💾 starship installation"
+	brew list starship || brew install starship
+	@echo "🌮 done starship ✅"
+
+# ====== PYENV ======
+pyenv: pyenvprerequisitesinstall pyenvinstall pyenvinstall
+
+pyenvprerequisitesinstall:
+	@echo "💾 pyenv prerequisites installation"
+	brew list openssl || brew install openssl
+	brew list readline || brew install readline
+	brew list sqlite3 || brew install sqlite3
+	brew list xz || brew install xz
+	brew list zlib || brew install zlib
+	@echo "🌮 done pyenv prerequisites ✅"
+
+pyenvinstall: pyenvprerequisitesinstall
+	@echo "💾 pyenv installation"
+	brew list pyenv || brew install pyenv
+	@echo "🌮 done pyenv ✅"
+
+pyenvpythonltsinstall: pyenvinstall
+	@echo "💾 latest python installation"
+	pyenv install $$(pyenv install --list | grep -v - | grep -v b | tail -1)
+
+# ====== PYTHON SETUP ======
+pythonsetupglobal:
+	@echo "++++++ PYTHON VERSIONS ++++++"
+	pyenv versions
+	@echo "+++++++++++++++++++++++++++++"
+	pyenv global $(pyenv install --list | grep -v - | grep -v b | tail -1)
+	@echo "++++++ PYTHON VERSION ++++++"
+	python --version
+	@echo "++++++++++++++++++++++++++++"
+	@echo "++++++ PIP VERSION ++++++"
+	pip --version
+	@echo "+++++++++++++++++++++++++"
+	@echo "🌮 done latest python installation ✅"
+
+pythontools: pythonsetupglobal
+	@echo "💾 pipenv installation"
+	brew list pipenv || brew install pipenv
+	@echo "🌮 done pipenv ✅"
+	@echo "💾 flake8 installation"
+	which flake8 || pip install flake8
+	@echo "🌮 done flake8 ✅"
+	@echo "💾 black installation"
+	which black || pip install black
+	@echo "🌮 done black ✅"
+	@echo "💾 isort installation"
+	which isort || pip install isort
+	@echo "🌮 done isort ✅"
+	@echo "💾 pylint installation"
+	which pylint || pip install pylint
+	@echo "🌮 done pylint ✅"
+
+# ====== DEVOPS ======
+devops: terraforminstall kubectlinstall minikubeinstall
+
+terraforminstall:
+	@echo "💾 terraform installation"
+	brew list terraform || brew tap hashicorp/tap
+	brew list terraform || brew install hashicorp/tap/terraform
+	@echo "🌮 done terraform ✅"
+
+kubectlinstall:
+	echo "💾 kubectl installation"
+	brew list kubernetes-cli || brew install kubernetes-cli
+	kubectl version --client
+	@echo "🌮 done kubectl ✅"
+
+minikubeinstall:
+	@echo "💾 minikube installation"
+	brew list minikube || brew install minikube
+	minikube config set driver virtualbox
+	@echo "🌮 done minikube ✅"
+
+# ====== NGROK ======
+ngrok: ngronkdownload ngrokunzip
+
+ngronkdownload:
+	@echo "💈 ngrok installation"
+	(test -d ${dev_root}/ngrok && echo "ngrok exist\n") || (echo "downloading ngrok\n" && mkdir -p ${dev_root}/ngrok && curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-darwin-${kind}64.zip -L -o ${dev_root}/ngrok/ngrok.zip)
+
+
+ngrokunzip: ngronkdownload
+	(test -f ~/${dev_root}/ngrok/ngrok.zip && echo "ngrok zip  exist -> unziping\n" && unzip ${dev_root}/ngrok/ngrok.zip -d ${dev_root}/ngrok ) || (echo "ngrok zip no exist\n")
+
+ngrokclean:
+	(test -f ${dev_root}/ngrok/ngrok.zip && echo "ngrok zip  exist -> removing zip\n" && rm -rf ${dev_root}/ngrok/ngrok.zip) || (echo "ngrok zip no exist\n")
+	@echo "🌮 done ngrok ✅"
+
+# ====== NVM  ======
+nvm: nvminstall nodejsltsinstall
+
+nvminstall:
+	@echo "💾 nvm installation"
+	which nvm || curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${nvm_version}/install.sh | bash
+	@echo "🌮 done nvm ✅"
+
+nodejsltsinstall: nvminstall
+	@echo "💾 node LTS installation"
+	nvm install --lts
+	@echo "🌮 done node LTS ✅"
+	@echo "++++++ NODE VERSION ++++++"
+	node --version
+	@echo "+++++++++++++++++++++++++++++"
+
+# ====== FLUTTER ======
+flutter: flutterdownload flutterunzip flutterdoctor
+
+flutterdownload:
+	@echo "💈 flutter installation"
+	which flutter || curl https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_${flutter_version}-stable.zip -L -o ${dev_root}/flutter.zip
+
+flutterunzip: flutterdownload
+	which flutter || unzip ${dev_root}/flutter.zip -d ${dev_root}
+
+flutterclean: flutterunzip
+	(test -f ${dev_root}/flutter.zip && echo "flutter zip  exist -> removing zip\n" && rm -rf ${dev_root}/flutter.zip) || (echo "flutter zip no exist\n")
+
+flutterdoctor: flutterclean
+	flutter doctor
+	echo "🌮 done flutter, 🛎 Platform setup => https://flutter.dev/docs/get-started/install/macos 🛎 ✅"
+
+
+fixcompaudit:
+	@echo "*** 💊 FIX zsh compinit: insecure directories, run compaudit for list. ***"
+	compaudit
+	chmod g-w /usr/local/share/zsh
+	chmod g-w /usr/local/share/zsh/site-functions
+	echo "🌮 done fix ✅"

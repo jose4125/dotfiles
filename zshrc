@@ -148,3 +148,10 @@ eval "$(pyenv init -)"
 echo "es mac"
 # tmux || echo "tmux already run"
 # tmux info &> /dev/null || exit
+
+
+#### FIG ENV VARIABLES ####
+[[ -s ~/.fig/fig.sh ]] && source ~/.fig/fig.sh
+#### END FIG ENV VARIABLES ####
+
+

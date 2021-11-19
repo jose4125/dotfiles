@@ -1,0 +1,8 @@
+include .env
+export
+
+fonts = ${MPATH}/$$(whoami)/${FONTS}
+
+test:
+	echo ${fonts}
+	echo hola $$(whoami)
