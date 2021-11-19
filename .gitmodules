@@ -1,0 +1,3 @@
+[submodule "dotfiles-config"]
+	path = dotfiles-config
+	url = git@github.com:jose4125/dotfiles-config.git

@@ -1,4 +1,4 @@
-include .env
+include ./dotfiles-config/.env
 export
 
 fonts = ${MPATH}/$$(whoami)/${FONTS}
