@@ -32,6 +32,9 @@ set guifont=JetBrainsMono_Nerd_Font:h15
 "set guifont=FiraCode_Nerd_Font:h16
 set shortmess-=S
 set nocompatible
+set list
+set listchars=tab:▸\ ,trail:·
+
 
 set includeexpr=substitute(v:fname,'^/','','g')
 "set suffixesadd=.js,.vue,.scss,.py
@@ -78,39 +81,29 @@ endif
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vuciv/vim-bujo'
 Plug 'kshenoy/vim-signature'
-Plug 'jparise/vim-graphql'
-" Plug 'chemzqm/vim-jsx-improve'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'leafgarland/typescript-vim'
-Plug 'pangloss/vim-javascript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'tpope/vim-commentary'
-Plug 'b4b4r07/vim-hcl'
 Plug 'fatih/vim-hclfmt'
-Plug 'ekalinin/dockerfile.vim'
 Plug 'skanehira/docker-compose.vim'
 Plug 'kkvh/vim-docker-tools'
-Plug 'pearofducks/ansible-vim'
-Plug 'HerringtonDarkholme/yats.vim'
 Plug 'liuchengxu/vim-which-key'
-Plug 'luochen1990/rainbow'
+" Plug 'luochen1990/rainbow'
 Plug 'mattn/emmet-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'APZelos/blamer.nvim'
 Plug 'tpope/vim-surround'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
-Plug 'Yggdroot/indentLine'
-Plug 'lifepillar/pgsql.vim'
+" Plug 'Yggdroot/indentLine'
 if has('nvim') || has('patch-8.0.902')
   Plug 'mhinz/vim-signify'
 else
@@ -121,9 +114,14 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'p00f/nvim-ts-rainbow'
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
 Plug 'skbolton/embark'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -151,7 +149,8 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
- colorscheme embark
+colorscheme embark
+" colorscheme dracula
 
 let g:airline#extensions#tabline#enabled = 2
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -203,14 +202,33 @@ map ]b :bn<cr>
 map [b :bp<cr>
 map gd :bd<cr>
 
+" indent-blankline.nvim
+lua << EOF
+require("nvim-treesitter.configs").setup {
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+  },
+  indent = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+  }
+}
+
+vim.opt.list = true
+
+require("indent_blankline").setup {
+    space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
+}
+EOF
+
 " Use preset argument to open it
 nmap <space>e :CocCommand explorer<CR>
-
-" graphql
-au BufNewFile,BufRead *.prisma setfiletype graphql
-
-" vim-jsx-typescript
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 " coc prettier
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')

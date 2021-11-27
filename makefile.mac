@@ -1,8 +1,11 @@
+SHELL := /bin/zsh
 include ./dotfiles-config/.env
 export
+export PATH:="/opt/homebrew/bin:$(PATH)"
+export NVM_DIR="$$HOME/.nvm"
 
 download_root = ${DOWNLOADROOT}
-fonts = ${MPATH}/$$(whoami)/${FONTS}
+fonts = ${MPATH}/${FONTS}
 dot_dev_root = ${DEVROOT}/${DOTDEVROOT}
 dev_root = ${DEVROOT}
 kind = ${KIND}
@@ -10,11 +13,11 @@ jetbrains_mono_version = ${JETBRAINSMONOVERSION}
 nvm_version = ${NVMVERSION}
 flutter_version = ${FLUTTERVERSION}
 
-all: jetbrainsmono simlinkfiles toolsandplugins pyenv devops ngrok nvm restart
+all: jetbrainsmono simlinkfiles toolsandplugins pyenv devops ngrok nvminstall restart
 
 ohmyzsh: ohmyzshinstall
 
-python: pythonsetupglobal pythontools
+nodepython: pythonsetupglobal pythontools nodejsltsinstall
 
 testvar:
 	@echo download = ${download_root}
@@ -25,6 +28,8 @@ testvar:
 	@echo jetbrainsmono = ${jetbrains_mono_version}
 	@echo nvm = ${nvm_version}
 	@echo flutter = ${flutter_version}
+	@echo path = ${PATH}
+	@echo nvim dir = ${NVM_DIR}
 
 clean: jetbrainsmonoclean ngrokclean flutterclean
 
@@ -33,10 +38,13 @@ restart:
 
 brewinstall:
 	@echo "💾 brew installation"
-	which brew || /usr/bin/ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	which brew || /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo "🌮 done brew ✅"
 
-zshinstall: brewinstall
+brewexport: brewinstall
+	@echo ${PATH}
+
+zshinstall: brewexport
 	@echo "💾 zsh installation"
 	brew list zsh || brew install zsh
 	@echo "🌮 done zsh ✅"
@@ -73,7 +81,7 @@ simlinkfiles: zshlink initvimlink zprofilelink starshiplink cocsettingslink coce
 
 zshlink: zshrcremove
 	@echo "🔗 zshrc link"
-	(test -L ~/.zshrc && echo ".zshrc exist\n") || (echo "linking zshrc\n" && ln -s ${dot_dev_root}/dotfiles/zshrc ~/.zshrc)
+	(test -L ~/.zshrc && echo ".zshrc exist\n") || (echo "linking zshrc\n" && ln -s ${dot_dev_root}/zshrc ~/.zshrc)
 	@echo "🌮 done zshrc link ✅"
 
 starshiplink:
@@ -88,7 +96,7 @@ zprofilelink:
 
 initvimlink:
 	@echo "🔗 init.vim link"
-	(test -L ~/.config/nvim/ini.vim && echo "init.vim exist\n") || (test ! -d ~/.config/nvim/ && echo "creating nvim folder\n" && mkdir -p ~/.config/nvim) && (echo "linking init.vim\n" && ln -s ${dot_dev_root}/init.vim ~/.config/nvim/init.vim)
+	(test -L ~/.config/nvim/init.vim && echo "init.vim exist\n") || (test ! -d ~/.config/nvim/ && echo "creating nvim folder\n" && mkdir -p ~/.config/nvim) && (echo "linking init.vim\n" && ln -s ${dot_dev_root}/init.vim ~/.config/nvim/init.vim)
 	@echo "🌮 done init.nvim link ✅"
 
 cocsettingslink:
@@ -102,7 +110,7 @@ cocextensionslink:
 	@echo "🌮 done coc extensions link ✅"
 
 # ====== TOOLS AND PLUGINS ======
-toolsandplugins: embarkdownload zshautosugestioninstall zshsyntaxhighlightinginstall vimpluginstall neoviminstall tmuxinstall starshipinstall
+toolsandplugins: embarkdownload zshautosugestioninstall zshsyntaxhighlightinginstall vimpluginstall neoviminstall tmuxinstall starshipinstall raycastinstall
 
 embarkdownload:
 	@echo "💈 embrak iterm download"
@@ -140,8 +148,13 @@ starshipinstall:
 	brew list starship || brew install starship
 	@echo "🌮 done starship ✅"
 
+raycastinstall:
+	@echo "💾 raycast installation"
+	brew install --cask raycast
+	@echo "🌮 done raycast ✅"
+
 # ====== PYENV ======
-pyenv: pyenvprerequisitesinstall pyenvinstall pyenvinstall
+pyenv: pyenvprerequisitesinstall pyenvinstall pyenvpythonltsinstall
 
 pyenvprerequisitesinstall:
 	@echo "💾 pyenv prerequisites installation"
@@ -159,14 +172,14 @@ pyenvinstall: pyenvprerequisitesinstall
 
 pyenvpythonltsinstall: pyenvinstall
 	@echo "💾 latest python installation"
-	pyenv install $$(pyenv install --list | grep -v - | grep -v b | tail -1)
+	pyenv install $$(pyenv install --list | grep --extended-regexp "^\s*[0-9][0-9.]*[0-9]\s*$$" | tail -1)
 
 # ====== PYTHON SETUP ======
-pythonsetupglobal:
+pythonsetupglobal: pyenvpythonltsinstall
 	@echo "++++++ PYTHON VERSIONS ++++++"
 	pyenv versions
 	@echo "+++++++++++++++++++++++++++++"
-	pyenv global $(pyenv install --list | grep -v - | grep -v b | tail -1)
+	pyenv global $$(pyenv install --list | grep --extended-regexp "^\s*[0-9][0-9.]*[0-9]\s*$$" | tail -1)
 	@echo "++++++ PYTHON VERSION ++++++"
 	python --version
 	@echo "++++++++++++++++++++++++++++"
@@ -210,7 +223,6 @@ kubectlinstall:
 minikubeinstall:
 	@echo "💾 minikube installation"
 	brew list minikube || brew install minikube
-	minikube config set driver virtualbox
 	@echo "🌮 done minikube ✅"
 
 # ====== NGROK ======
@@ -222,21 +234,24 @@ ngronkdownload:
 
 
 ngrokunzip: ngronkdownload
-	(test -f ~/${dev_root}/ngrok/ngrok.zip && echo "ngrok zip  exist -> unziping\n" && unzip ${dev_root}/ngrok/ngrok.zip -d ${dev_root}/ngrok ) || (echo "ngrok zip no exist\n")
+	(test -f ${dev_root}/ngrok/ngrok.zip && echo "ngrok zip  exist -> unziping\n" && unzip ${dev_root}/ngrok/ngrok.zip -d ${dev_root}/ngrok ) || (echo "ngrok zip no exist\n")
 
 ngrokclean:
 	(test -f ${dev_root}/ngrok/ngrok.zip && echo "ngrok zip  exist -> removing zip\n" && rm -rf ${dev_root}/ngrok/ngrok.zip) || (echo "ngrok zip no exist\n")
 	@echo "🌮 done ngrok ✅"
 
 # ====== NVM  ======
-nvm: nvminstall nodejsltsinstall
-
 nvminstall:
 	@echo "💾 nvm installation"
 	which nvm || curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${nvm_version}/install.sh | bash
 	@echo "🌮 done nvm ✅"
 
-nodejsltsinstall: nvminstall
+nvmtest:
+		source ~/.zshrc; \
+		source $$HOME/.nvm/nvm.sh; \
+		nvm list
+
+nodejsltsinstall:
 	@echo "💾 node LTS installation"
 	nvm install --lts
 	@echo "🌮 done node LTS ✅"

@@ -13,11 +13,12 @@
 - virtualbox - https://www.virtualbox.org/wiki/Downloads
 - skype - https://www.skype.com/es/get-skype/
 - notion - https://www.notion.so/desktop
-- navicat - (es pago :()
 - beekeeper studio - https://www.beekeeperstudio.io/
 - postman - https://www.postman.com/downloads/
 - sourcetree - https://www.sourcetreeapp.com/
 - mongo compass - https://www.mongodb.com/try/download/compass
+- DBeaver - https://dbeaver.io/download/
+- tableplus
 - android studio
 - amphetamine - https://apps.apple.com/es/app/amphetamine/id937984704?mt=12
 - ngrok - https://ngrok.com/download
@@ -30,6 +31,7 @@
 ## TOOLS
 
 - homebrew - https://brew.sh/index
+- raycast https://www.raycast.com/
 - starship (zsh theme) - https://starship.rs/
 - embark-theme iterm(iterm color theme) - https://github.com/embark-theme/iterm
 - nerd font (JetBrainMono, firacode) - https://www.nerdfonts.com/

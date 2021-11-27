@@ -7,8 +7,11 @@ mac-ohmyzsh:
 mac-all:
 	make -f makefile.mac all
 
-mac-python:
-	make -f makefile.mac python
+mac-nodepython:
+	make -f makefile.mac nodepython
+
+mac-nvmtest:
+	make -f makefile.mac nvmtest
 
 mac-clean:
 	make -f makefile.mac clean

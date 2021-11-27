@@ -1,6 +1,12 @@
+
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the start of this file.
+[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+#### END FIG ENV VARIABLES ####
 ZSH_DISABLE_COMPFIX=true
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$(pyenv root)/shims:$PATH"
 export PATH="$PATH:/Users/jlombana/development/flutter/bin"
 export EDITOR='vim'
@@ -140,7 +146,7 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
-eval 'source <("/usr/local/bin/starship" init zsh --print-full-init)'
+eval "$(starship init zsh)"
 eval "$(pyenv init -)"
 
 [[ $TMUX != "" ]] && export TERM="screen-256color"
@@ -148,10 +154,3 @@ eval "$(pyenv init -)"
 echo "es mac"
 # tmux || echo "tmux already run"
 # tmux info &> /dev/null || exit
-
-
-#### FIG ENV VARIABLES ####
-[[ -s ~/.fig/fig.sh ]] && source ~/.fig/fig.sh
-#### END FIG ENV VARIABLES ####
-
-
