@@ -1,0 +1,2 @@
+Plug 'fatih/vim-hclfmt'
+

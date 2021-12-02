@@ -1,0 +1,1 @@
+Plug 'luukvbaal/stabilize.nvim'
