@@ -39,7 +39,14 @@ return require('packer').startup(function(use)
   use 'rafamadriz/friendly-snippets'
   use 'tami5/lspsaga.nvim'
   use 'phaazon/hop.nvim'
+  use 'nathom/filetype.nvim'
+  use 'max397574/better-escape.nvim'
+  use 'simrat39/symbols-outline.nvim'
+  use 'lewis6991/impatient.nvim'
+  use 'antoinemadec/FixCursorHold.nvim'
+  use 'mrjones2014/smart-splits.nvim'
 
+  use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
   use { 'TimUntersberger/neogit', requires = {
     'nvim-lua/plenary.nvim',
     'sindrets/diffview.nvim'
@@ -49,6 +56,16 @@ return require('packer').startup(function(use)
   requires = {'kyazdani42/nvim-web-devicons', opt = true}
   }
   use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'}
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    -- branch = "main",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim"
+    },
+  }
   use {
     'kyazdani42/nvim-tree.lua',
     requires = {
@@ -70,6 +87,9 @@ return require('packer').startup(function(use)
   use 'AndrewRadev/splitjoin.vim'
   use 'editorconfig/editorconfig-vim'
   use 'kshenoy/vim-signature'
+  use 'github/copilot.vim'
+  use 'leafOfTree/vim-matchtag'
+  use 'moll/vim-bbye'
 
 
   -- Automatically set up your configuration after cloning packer.nvim

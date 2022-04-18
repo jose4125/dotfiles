@@ -55,6 +55,7 @@ vim.opt.showtabline = 2
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = false
 vim.opt.signcolumn = "yes"
+vim.g.cursorhold_updatetime = 100
 
 vim.g.markdown_fenced_languages = {
   "ts=typescript"
