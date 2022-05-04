@@ -6,8 +6,6 @@ local jsonSchemas = require('config.lsp.settings.jsonls')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-              client.resolved_capabilities.document_formatting = false
-              client.resolved_capabilities.document_range_formatting = false
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -114,5 +112,3 @@ lsp_installer.on_server_ready(function(server)
 
   server:setup(opts)
 end)
-
-

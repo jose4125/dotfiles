@@ -1,9 +1,11 @@
 local null_ls = require('null-ls')
 local formatting = null_ls.builtins.formatting
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
   sources = {
     formatting.prettier.with({
+      filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "css", "scss", "less", "html", "json", "jsonc", "yaml", "markdown", "graphql", "handlebars", "svelte" },
       only_local = "node_modules/.bin",
     }),
     formatting.stylelint,
@@ -21,15 +23,17 @@ null_ls.setup({
       }
     }),
   },
-  -- you can reuse a shared lspconfig on_attach callback here
-  on_attach = function(client)
-      if client.resolved_capabilities.document_formatting then
-          vim.cmd([[
-            augroup LspFormatting
-                autocmd! * <buffer>
-                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-            augroup END
-            ]])
-      end
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = augroup,
+            buffer = bufnr,
+            -- on 0.8, you should use vim.lsp.buf.format instead
+            callback = function()
+              vim.lsp.buf.format()
+            end
+        })
+    end
   end,
 })
